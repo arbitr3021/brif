@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бриф на розробку інтерактивної веб-гри</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1a1a2e;
+            background: #f4f5f7;
+            line-height: 1.6;
+        }
+
+        .page {
+            max-width: 820px;
+            margin: 0 auto;
+            background: #fff;
+        }
+
+        @media print {
+            body {
+                background: #fff;
+            }
+
+            .page {
+                box-shadow: none;
+            }
+
+            .no-print {
+                display: none;
+            }
+
+            input,
+            textarea {
+                border-bottom: 1px solid #999 !important;
+            }
+        }
+
+        /* Header */
+        .doc-header {
+            background: #1a1a2e;
+            color: #fff;
+            padding: 48px 56px 40px;
+        }
+
+        .doc-header h1 {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            margin-bottom: 6px;
+        }
+
+        .doc-header .subtitle {
+            font-size: 14px;
+            color: #a0a3bd;
+            font-weight: 400;
+        }
+
+        .doc-meta {
+            display: flex;
+            gap: 40px;
+            margin-top: 24px;
+            font-size: 13px;
+            color: #c4c7e0;
+        }
+
+        .doc-meta span {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .doc-meta .label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: #7b7faa;
+        }
+
+        /* Body */
+        .doc-body {
+            padding: 40px 56px 60px;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 36px;
+            page-break-inside: avoid;
+        }
+
+        .section-num {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            background: #1a1a2e;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+            line-height: 28px;
+            border-radius: 4px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        .section-title {
+            display: inline;
+            font-size: 17px;
+            font-weight: 700;
+            color: #1a1a2e;
+            vertical-align: middle;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-header {
+            border-bottom: 2px solid #1a1a2e;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .section-desc {
+            font-size: 13px;
+            color: #6b6e8a;
+            margin-bottom: 16px;
+            font-style: italic;
+        }
+
+        /* Fields */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 12px;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 10px 14px;
+            font-size: 14px;
+            vertical-align: top;
+        }
+
+        th {
+            background: #f0f1f5;
+            font-weight: 600;
+            color: #1a1a2e;
+            width: 42%;
+            border: 1px solid #e0e1e8;
+        }
+
+        td {
+            border: 1px solid #e0e1e8;
+            color: #444;
+        }
+
+        td input,
+        td textarea {
+            width: 100%;
+            border: none;
+            font-family: inherit;
+            font-size: 14px;
+            color: #1a1a2e;
+            background: transparent;
+            outline: none;
+            resize: vertical;
+        }
+
+        td textarea {
+            min-height: 40px;
+        }
+
+        /* Checkboxes */
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+
+        .options li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f1f5;
+            font-size: 14px;
+        }
+
+        .options li:last-child {
+            border-bottom: none;
+        }
+
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            min-width: 18px;
+            border: 2px solid #c4c7d4;
+            border-radius: 3px;
+            margin-top: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .options .other-line {
+            margin-top: 4px;
+        }
+
+        .other-input {
+            border: none;
+            border-bottom: 1px solid #c4c7d4;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            width: 200px;
+            margin-left: 4px;
+        }
+
+        /* Subsection */
+        .subsection {
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        .subsection-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 12px;
+            padding-left: 12px;
+            border-left: 3px solid #1a1a2e;
+        }
+
+        /* Note block */
+        .note {
+            background: #f7f8fb;
+            border-left: 3px solid #6c63ff;
+            padding: 14px 18px;
+            font-size: 13px;
+            color: #4a4d6a;
+            margin: 20px 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        /* Attachments */
+        .attach-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .attach-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f1f5;
+            font-size: 14px;
+        }
+
+        .attach-list li:last-child {
+            border-bottom: none;
+        }
+
+        .attach-icon {
+            width: 20px;
+            height: 20px;
+            background: #e8e9f0;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            color: #6b6e8a;
+        }
+
+        /* Footer */
+        .doc-footer {
+            background: #f7f8fb;
+            padding: 28px 56px;
+            border-top: 1px solid #e0e1e8;
+            text-align: center;
+            font-size: 13px;
+            color: #6b6e8a;
+        }
+
+        /* Signature block */
+        .signature-block {
+            display: flex;
+            gap: 60px;
+            margin-top: 30px;
+        }
+
+        .sig-col {
+            flex: 1;
+        }
+
+        .sig-label {
+            font-size: 12px;
+            color: #6b6e8a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+        }
+
+        .sig-line {
+            border-bottom: 1px solid #1a1a2e;
+            height: 1px;
+            margin-bottom: 6px;
+        }
+
+        .sig-hint {
+            font-size: 11px;
+            color: #999;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page">
+
+        <!-- HEADER -->
+        <div class="doc-header">
+            <h1>БРИФ НА РОЗРОБКУ ІНТЕРАКТИВНОЇ ВЕБ-ГРИ</h1>
+            <div class="subtitle">Технічне завдання для створення гри з можливістю вбудовування на сайт замовника</div>
+            <div class="doc-meta">
+                <span><span class="label">Дата заповнення</span>___.___.______</span>
+                <span><span class="label">Версія документа</span>1.0</span>
+            </div>
+        </div>
+
+        <div class="doc-body">
+
+            <!-- 1 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-num">1</span>
+                    <span class="section-title">Загальна інформація про замовника</span>
+                </div>
+                <table>
+                    <tr>
+                        <th>Назва компанії / бренду</th>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <th>Контактна особа (ПІБ, посада)</th>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <th>Електронна пошта</th>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <th>Контактний телефон</th>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <th>Веб-сайт, на який буде вбудована гра</th>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <th>Бажана дата готовності</th>
+                        <td><input type="text"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 2 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-num">2</span>
+                    <span class="section-title">Брендинг та продукт</span>
+                </div>
+                <table>
+                    <tr>
+                        <th>Продукт або послуга, яку просуває гра</th>
+                        <td><textarea></textarea></td>
+                    </tr>
+                    <tr>
+                        <th>Ключове рекламне повідомлення для гравця</th>
+                        <td><textarea></textarea></td>
+                    </tr>
+                    <tr>
+                        <th>Слоган (за наявності)</th>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <th>Фірмові кольори (коди HEX або зразки)</th>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <th>Фірмовий шрифт (за наявності)</th>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <th>Наявність брендбуку або гайдлайнів</th>
+                        <td><input type="text" placeholder="Так / Ні (додати як вкладення)"></td>
+                    </tr>
+                </table>
+                <div class="note">Логотип у форматі SVG або PNG з прозорим фоном необхідно додати як вкладення до цього
+                    документа.</div>
+            </div>
+
+            <!-- 3 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-num">3</span>
+                    <span class="section-title">Мета та завдання гри</span>
+                </div>
+                <div class="section-desc">Оберіть одну або кілька цілей, які має виконувати гра:</div>
+                <ul class="options">
+                    <li><span class="checkbox"></span>Збір контактних даних потенційних клієнтів (лідогенерація)</li>
+                    <li><span class="checkbox"></span>Підвищення впізнаваності бренду та продукту</li>
+                    <li><span class="checkbox"></span>Освітня або інформаційна функція</li>
+                    <li><span class="checkbox"></span>Просування конкретного продукту або акційної пропозиції</li>
+                    <li><span class="checkbox"></span>Залучення та утримання аудиторії</li>
+                    <li><span class="checkbox"></span>Інше: <input type="text" class="other-input"></li>
+                </ul>
+                <table style="margin-top: 16px;">
+                    <tr>
+                        <th>Що гравець має запам'ятати після завершення гри?</th>
+                        <td><textarea></textarea></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 4 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-num">4</span>
+                    <span class="section-title">Цільова аудиторія</span>
+                </div>
+                <table>
+                    <tr>
+                        <th>Опис цільової аудиторії</th>
+                        <td><textarea placeholder="Фермери, агрономи, широка аудиторія тощо"></textarea></td>
+                    </tr>
+                    <tr>
+                        <th>Вікова група</th>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <th>Пріоритетний пристрій</th>
+                        <td><input type="text" placeholder="Мобільний / Десктоп / Обидва"></td>
+                    </tr>
+                    <tr>
+                        <th>Канал залучення гравців</th>
+                        <td><textarea
+                                placeholder="Корпоративний сайт, рекламна кампанія, QR-код, соціальні мережі тощо"></textarea>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 5 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-num">5</span>
+                    <span class="section-title">Ігрова механіка</span>
+                </div>
+
+                <div class="subsection">
+                    <div class="subsection-title">Тип ігрової механіки</div>
+                    <div class="section-desc">Оберіть бажаний тип або опишіть власний варіант:</div>
+                    <ul class="options">
+                        <li><span class="checkbox"></span>Клікер — тапай або клікай по об'єктах, щоб знищити загрози
+                        </li>
+                        <li><span class="checkbox"></span>Збирання — ловити падаючі предмети у кошик або контейнер</li>
+                        <li><span class="checkbox"></span>Вікторина — запитання з варіантами відповідей</li>
+                        <li><span class="checkbox"></span>Стратегія — розподіл ресурсів по ігровому полю (покрокова)
+                        </li>
+                        <li><span class="checkbox"></span>Пазл — знайди пару, склади зображення</li>
+                        <li><span class="checkbox"></span>Інше: <input type="text" class="other-input"></li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <div class="subsection-title">Основні параметри гри</div>
+                    <table>
+                        <tr>
+                            <th>Тривалість одного ігрового сеансу (секунди)</th>
+                            <td><input type="text" placeholder="Наприклад: 60"></td>
+                        </tr>
+                        <tr>
+                            <th>Кількість «життів» або одиниць здоров'я</th>
+                            <td><input type="text" placeholder="Наприклад: 10"></td>
+                        </tr>
+                        <tr>
+                            <th>Умова програшу</th>
+                            <td><textarea placeholder="Наприклад: 30 пропущених об'єктів"></textarea></td>
+                        </tr>
+                        <tr>
+                            <th>Наявність рівнів складності (кількість)</th>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <th>Чи зростає складність протягом сеансу? Яким чином?</th>
+                            <td><textarea></textarea></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="subsection">
+                    <div class="subsection-title">Бонусні елементи</div>
+                    <table>
+                        <tr>
+                            <th>Наявність бонусних предметів</th>
+                            <td><input type="text" placeholder="Так / Ні"></td>
+                        </tr>
+                        <tr>
+                            <th>Ефект бонусу</th>
+                            <td><textarea placeholder="Додаткове життя, уповільнення, додаткові очки тощо"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Частота появи бонусу</th>
+                            <td><input type="text" placeholder="Наприклад: кожні 8–12 секунд"></td>
+                        </tr>
+                        <tr>
+                            <th>Зв'язок бонусу з продуктом замовника</th>
+                            <td><textarea placeholder="Наприклад: каністра з препаратом = бонусний предмет"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 6 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-num">6</span>
+                    <span class="section-title">Сюжет та текстовий контент</span>
+                </div>
+
+                <div class="subsection">
+                    <div class="subsection-title">Ігровий сеттинг</div>
+                    <table>
+                        <tr>
+                            <th>Тематика та середовище</th>
+                            <td><textarea placeholder="Поле, ферма, місто, фантазійний світ тощо"></textarea></td>
+                        </tr>
+                        <tr>
+                            <th>Ігрова загроза (антагоніст)</th>
+                            <td><textarea placeholder="Хвороба, шкідники, конкуренти тощо"></textarea></td>
+                        </tr>
+                        <tr>
+                            <th>Об'єкт захисту</th>
+                            <td><textarea placeholder="Врожай, тварини, місто тощо"></textarea></td>
+                        </tr>
+                        <tr>
+                            <th>Інструмент гравця («зброя»)</th>
+                            <td><textarea placeholder="Препарат, інструмент, магія тощо"></textarea></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="subsection">
+                    <div class="subsection-title">Тексти для ігрових екранів</div>
+                    <div class="section-desc">Надайте тексти мовою, якою буде створена гра:</div>
+                    <table>
+                        <tr>
+                            <th>Заголовок стартового екрану</th>
+                            <td><textarea placeholder="Наприклад: «Біла гниль не чекає.»"></textarea></td>
+                        </tr>
+                        <tr>
+                            <th>Підзаголовок стартового екрану</th>
+                            <td><textarea placeholder="Наприклад: «У тебе є 60 секунд, щоб врятувати поле.»"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Текст кнопки запуску</th>
+                            <td><input type="text" placeholder="Наприклад: ПОЧАТИ"></td>
+                        </tr>
+                        <tr>
+                            <th>Правила гри (3–4 пункти)</th>
+                            <td><textarea></textarea></td>
+                        </tr>
+                        <tr>
+                            <th>Повідомлення при найкращому результаті</th>
+                            <td><textarea></textarea></td>
+                        </tr>
+                        <tr>
+                            <th>Повідомлення при середньому результаті</th>
+                            <td><textarea></textarea></td>
+                        </tr>
+                        <tr>
+                            <th>Повідомлення при програші</th>
+                            <td><textarea></textarea></td>
+                        </tr>
+                        <tr>
+                            <th>Заклик до дії (CTA) після завершення гри</th>
+                            <td><textarea placeholder="Наприклад: «Отримай -5% на Склероцид»"></textarea></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 7 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-num">7</span>
+                    <span class="section-title">Структура екранів гри</span>
+                </div>
+                <div class="section-desc">Позначте екрани, які мають бути присутні в грі:</div>
+                <ul class="options">
+                    <li><span class="checkbox"></span>Стартовий екран (заставка з кнопкою запуску)</li>
+                    <li><span class="checkbox"></span>Екран з правилами гри (інструкція перед початком)</li>
+                    <li><span class="checkbox"></span>Основний ігровий екран (геймплей)</li>
+                    <li><span class="checkbox"></span>Екран програшу (Game Over)</li>
+                    <li><span class="checkbox"></span>Екран перемоги (фінальне повідомлення за результатом)</li>
+                    <li><span class="checkbox"></span>Форма збору контактних даних (лідогенерація)</li>
+                    <li><span class="checkbox"></span>Таблиця рекордів</li>
+                    <li><span class="checkbox"></span>Інше: <input type="text" class="other-input"></li>
+                </ul>
+            </div>
+
+            <!-- 8 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-num">8</span>
+                    <span class="section-title">Збір контактних даних (лідогенерація)</span>
+                </div>
+                <div class="section-desc">Заповніть, якщо одна з цілей гри — збір лідів:</div>
+                <table>
+                    <tr>
+                        <th>Поля форми</th>
+                        <td><textarea placeholder="Ім'я, телефон, email, назва компанії тощо"></textarea></td>
+                    </tr>
+                    <tr>
+                        <th>Куди надсилати отримані дані</th>
+                        <td><textarea placeholder="Email, CRM-система, Google Sheets, API-ендпоінт тощо"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Винагорода гравцю за заповнення форми</th>
+                        <td><textarea placeholder="Знижка, безкоштовна консультація, PDF-матеріали тощо"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Текст згоди на обробку персональних даних</th>
+                        <td><textarea></textarea></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 9 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-num">9</span>
+                    <span class="section-title">Візуальний стиль та дизайн</span>
+                </div>
+                <table>
+                    <tr>
+                        <th>Бажаний візуальний стиль</th>
+                        <td><input type="text" placeholder="Реалізм / Мультяшний / Мінімалістичний / Піксельний"></td>
+                    </tr>
+                    <tr>
+                        <th>Колірна тема</th>
+                        <td><input type="text" placeholder="Темна / Світла / За брендбуком"></td>
+                    </tr>
+                    <tr>
+                        <th>Наявність анімацій та ефектів</th>
+                        <td><textarea
+                                placeholder="Падіння об'єктів, ефекти знищення, переходи між екранами тощо"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Опис або посилання на фонове зображення</th>
+                        <td><textarea></textarea></td>
+                    </tr>
+                    <tr>
+                        <th>Референси дизайну (посилання або опис)</th>
+                        <td><textarea placeholder="Посилання на сайти, скріншоти, стилістичні орієнтири"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Наявність готових ілюстрацій або іконок</th>
+                        <td><input type="text" placeholder="Так / Ні (додати як вкладення)"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 10 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-num">10</span>
+                    <span class="section-title">Технічні вимоги</span>
+                </div>
+                <table>
+                    <tr>
+                        <th>Спосіб вбудовування на сайт</th>
+                        <td><input type="text" placeholder="iframe / вбудований блок / окрема сторінка"></td>
+                    </tr>
+                    <tr>
+                        <th>Бажані розміри ігрового вікна (ширина × висота, px)</th>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <th>Адаптивність (підтримка мобільних та десктопних пристроїв)</th>
+                        <td><input type="text" placeholder="Так / Ні / Тільки мобільний"></td>
+                    </tr>
+                    <tr>
+                        <th>CMS або платформа сайту</th>
+                        <td><input type="text" placeholder="WordPress, Tilda, кастомна розробка тощо"></td>
+                    </tr>
+                    <tr>
+                        <th>Інтеграція з аналітикою</th>
+                        <td><input type="text" placeholder="Google Analytics, Meta Pixel, інше"></td>
+                    </tr>
+                    <tr>
+                        <th>Наявність звукового супроводу</th>
+                        <td><input type="text" placeholder="Так / Ні"></td>
+                    </tr>
+                    <tr>
+                        <th>Мова або мови інтерфейсу гри</th>
+                        <td><input type="text"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 11 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-num">11</span>
+                    <span class="section-title">Додаткова інформація</span>
+                </div>
+                <table>
+                    <tr>
+                        <th>Орієнтовний бюджет проєкту</th>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <th>Необхідність A/B тестування варіантів</th>
+                        <td><input type="text" placeholder="Так / Ні"></td>
+                    </tr>
+                    <tr>
+                        <th>Технічна підтримка та оновлення після запуску</th>
+                        <td><input type="text" placeholder="Так / Ні"></td>
+                    </tr>
+                    <tr>
+                        <th>Інші побажання або коментарі</th>
+                        <td><textarea></textarea></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- ATTACHMENTS -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-num">+</span>
+                    <span class="section-title">Перелік вкладень до брифу</span>
+                </div>
+                <div class="section-desc">Будь ласка, додайте зазначені матеріали до цього документа:</div>
+                <ul class="attach-list">
+                    <li><span class="attach-icon">1</span>Логотип компанії (формат SVG або PNG з прозорим фоном)</li>
+                    <li><span class="attach-icon">2</span>Брендбук або гайдлайни фірмового стилю (за наявності)</li>
+                    <li><span class="attach-icon">3</span>Ілюстрації ігрових об'єктів (за наявності)</li>
+                    <li><span class="attach-icon">4</span>Фонові зображення (за наявності)</li>
+                    <li><span class="attach-icon">5</span>Референси дизайну (скріншоти або посилання)</li>
+                    <li><span class="attach-icon">6</span>Додатковий текстовий контент</li>
+                </ul>
+            </div>
+
+            <!-- SIGNATURE -->
+            <div class="signature-block">
+                <div class="sig-col">
+                    <div class="sig-label">Замовник</div>
+                    <div class="sig-line"></div>
+                    <div class="sig-hint">ПІБ, підпис, дата</div>
+                </div>
+                <div class="sig-col">
+                    <div class="sig-label">Виконавець</div>
+                    <div class="sig-line"></div>
+                    <div class="sig-hint">ПІБ, підпис, дата</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="doc-footer">
+            Після заповнення надішліть цей документ виконавцю. Чим детальніше заповнено бриф, тим точніше результат
+            відповідатиме вашим очікуванням.
+        </div>
+
+    </div>
+</body>
+
+</html>
